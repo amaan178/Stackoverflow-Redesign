@@ -29,19 +29,18 @@
                                     <div class="d-flex justify-content-between">
                                         <h4><a href="{{ $question->url }}">{{ $question->title }}</a></h4>
                                         <div>
-                                            @if (auth()->check() && auth()->user()->can('update-question', $question))
+                                            @can('update', $question)
                                                 <a href="{{ route('questions.edit', $question->id) }}"
                                                     class="btn btn-sm btn-outline-info">Edit</a>
 
-                                            @endif
-                                            @can('delete-question', $question)
+                                            @endcan
+                                            @can('delete', $question)
                                                 <form action="{{ route('questions.destroy', $question->id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-sm btn-outline-danger"
                                                         onclick="return confirm('Are you sure you want to delete?')">Delete</button>
                                                 </form>
-
                                             @endcan
                                         </div>
                                     </div>
