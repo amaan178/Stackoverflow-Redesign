@@ -41,9 +41,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function getAvatarAttribute()
+    {
+        $size = 35;
+        $name = $this->name;
+        return "https://ui-avatars.com/api/?name={$name}&rounded=true&size={$size}";
+    }
+
     /* RELATIONSHIPS METHOD */
     public function questions()
     {
         return $this->hasMany(Question::class);
+    }
+
+    public function answers()
+    {
+        return $this->hasMany(Answer::class);
     }
 }
