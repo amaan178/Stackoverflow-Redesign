@@ -3,22 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Questions\CreateQuestionRequest;
+use App\Http\Requests\Questions\UpdateQuestionRequest;
 use App\Models\Question;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class QuestionsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth'])->only('create', 'store');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-     public function __construct()
-     {
-         $this->middleware(['auth'])->only('create','store');
-     }
     public function index()
     {
         $questions = Question::with('owner')->latest()->paginate(10);
@@ -46,10 +49,10 @@ class QuestionsController extends Controller
     {
         auth()->user()->questions()->create([
             'title' => $request->title,
-            'body'  => $request->body
+            'body' => $request->body,
         ]);
 
-        session()->flash('success','Question has been added successfully!');
+        session()->flash('success', 'Question has been added successfully!');
         return redirect(route('questions.index'));
     }
 
@@ -61,7 +64,8 @@ class QuestionsController extends Controller
      */
     public function show(Question $question)
     {
-        //
+        $question->increment('views_count');
+        return view('questions.show', compact(['question']));
     }
 
     /**
@@ -72,7 +76,10 @@ class QuestionsController extends Controller
      */
     public function edit(Question $question)
     {
-        //
+        if (Gate::allows('update-question', $question)) {
+            return view('questions.edit', compact(['question']));
+        }
+        abort(403, 'Access Denied');
     }
 
     /**
@@ -82,9 +89,17 @@ class QuestionsController extends Controller
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Question $question)
+    public function update(UpdateQuestionRequest $request, Question $question)
     {
-        //
+        if (Gate::allows('update-question', $question)) {
+            $question->update([
+                'title' => $request->title,
+                'body' => $request->body
+            ]);
+            session()->flash('success', 'Question updated successfully');
+            return redirect(route('questions.index'));
+        }
+        abort(403);
     }
 
     /**
@@ -95,6 +110,11 @@ class QuestionsController extends Controller
      */
     public function destroy(Question $question)
     {
-        //
+        if (auth()->user()->can('delete-question', $question)) {
+            $question->delete();
+            session()->flash('success', 'Question deleted!');
+            return redirect(route('questions.index'));
+        }
+        abort(403);
     }
 }
