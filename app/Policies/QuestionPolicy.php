@@ -30,4 +30,9 @@ class QuestionPolicy
     {
         //
     }
+
+    public function markAsFavorite(User $user, Question $question)
+    {
+        return $user->id != $question->user_id;
+    }
 }
