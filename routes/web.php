@@ -3,6 +3,7 @@
 use App\Http\Controllers\AnswersController;
 use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\QuestionsController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VotesController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -33,3 +34,4 @@ Route::post('questions/{question}/favorite', [FavoritesController::class, 'store
 Route::delete('questions/{question}/unfavorite', [FavoritesController::class, 'destroy'])->name('questions.unfavorite');
 Route::post('questions/{question}/vote/{vote}', [VotesController::class, 'votesQuestion'])->name('questions.vote');
 Route::post('answers/{answer}/vote/{vote}', [VotesController::class, 'votesAnswer'])->name('answers.vote');
+Route::get('users/notifications', [UsersController::class, 'notifications'])->name('users.notification');
