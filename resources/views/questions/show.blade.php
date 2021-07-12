@@ -34,9 +34,9 @@
                                         </button>
                                     </form>
                                 @else
-                                    <i class="fa fa-star text-success fa-2x d-block"></i>
+                                    <i class="far mb-2 fa-star text-success fa-2x d-block"></i>
                                 @endcan
-                                <h4 class ="views-count text-muted text-center m-0">123</h4>
+                                <h4 class ="views-count text-muted text-center m-0">{{$question->favorites_count}}</h4>
                             </div>
                         </div>
                         <div class="d-flex flex-column">

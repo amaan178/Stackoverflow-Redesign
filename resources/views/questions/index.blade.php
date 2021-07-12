@@ -35,7 +35,7 @@
 
                                             @endcan
                                             @can('delete', $question)
-                                                <form action="{{ route('questions.destroy', $question->id) }}" method="POST">
+                                                <form action="{{ route('questions.destroy', $question->id) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-sm btn-outline-danger"
