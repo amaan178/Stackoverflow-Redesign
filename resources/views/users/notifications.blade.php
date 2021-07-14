@@ -18,6 +18,15 @@
                                             class="btn btn-smm btn-info text-white float-right">
                                             View Question
                                         </a>
+                                </li>
+                                <li class="list-group-item">
+                                    @elseif ($notification->type === \App\Notifications\MarkAsBest::class)
+                                        Your Answer <strong class="d-inline">{!! $notification->data['answer']['body'] !!}</strong> was marked as best in your question
+                                        <strong>{{ $notification->data['answer']['question']['title'] }}</strong>
+                                        <a href="{{ route('questions.show', $notification->data['answer']['question']['slug']) }}"
+                                            class="btn btn-smm btn-info text-white float-right">
+                                            View Question
+                                        </a>
                                     @endif
                                 </li>
                             @endforeach

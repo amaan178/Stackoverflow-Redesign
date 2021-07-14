@@ -6,6 +6,7 @@ use App\Http\Requests\Answers\CreateAnswerRequest;
 use App\Http\Requests\Answers\UpdateAnswerRequest;
 use App\Models\Answer;
 use App\Models\Question;
+use App\Notifications\MarkAsBest;
 use App\Notifications\NewReplyAdded;
 use Illuminate\Http\Request;
 
@@ -38,10 +39,11 @@ class AnswersController extends Controller
         return redirect($question->url);
     }
 
-    public function bestAnswer(Answer $answer)
+    public function bestAnswer(Answer $answer, Question $question)
     {
         $this->authorize('markAsBest', $answer);
         $answer->question->markBestAnswer($answer);
+        $answer->author->notify(new MarkAsBest($answer, $question));
         return redirect()->back();
     }
 

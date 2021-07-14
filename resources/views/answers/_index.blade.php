@@ -47,7 +47,7 @@
                             </div>
                             <div class="ml-5 mt-3">
                                 @can('markAsBest', $answer)
-                                    <form action="{{route('answers.bestAnswer', $answer->id)}}" method="POST">
+                                    <form action="{{route('answers.bestAnswer', [$answer->id, $question->id])}}" method="POST">
                                        @csrf
                                        @method('PUT')
                                        <button type="submit" class="btn {{ $answer->best_answer_style }}" title="Mark as Best Answer">
