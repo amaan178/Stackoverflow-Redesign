@@ -27,6 +27,24 @@
                                             class="btn btn-smm btn-info text-white float-right">
                                             View Question
                                         </a>
+                                </li>
+                                <li class="list-group-item">
+                                    @elseif ($notification->type === \App\Notifications\AnswerVotes::class)
+                                        Some one voted your answer at your question
+                                        {{-- <strong>{{ $notification->data['answer']['question']['title'] }}</strong>
+                                        <a href="{{ route('questions.show', $notification->data['answer']['question']['slug']) }}"
+                                            class="btn btn-smm btn-info text-white float-right">
+                                            View Question
+                                        </a> --}}
+                                </li>
+                                <li class="list-group-item">
+                                    @elseif ($notification->type === \App\Notifications\QuestionVotes::class)
+                                        Someone voted on your question
+                                        <strong>{{ $notification->data['question']['title'] }}</strong>
+                                        <a href="{{ route('questions.show', $notification->data['question']['slug']) }}"
+                                            class="btn btn-smm btn-info text-white float-right">
+                                            View Question
+                                        </a>
                                     @endif
                                 </li>
                             @endforeach
